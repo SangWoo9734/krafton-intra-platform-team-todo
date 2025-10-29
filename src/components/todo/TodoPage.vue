@@ -8,13 +8,13 @@ import TodoEditForm from '@/components/todo/TodoEditForm.vue';
 import LoadingSpinner from '@/components/common/LoadingSpinner.vue';
 import EmptyState from '@/components/common/EmptyState.vue';
 
-const { todos, loading, addTodo } = useTodos();
+const { todos, loading } = useTodos();
 </script>
 
 <template>
   <div class="todo-page-container">
     <TodoHeader />
-    <TodoAddButton class="todo-add-button" @onSubmit="addTodo" />
+    <TodoAddButton class="todo-add-button" />
     <LoadingSpinner v-if="loading" />
     <EmptyState v-else-if="todos.length === 0" />
     <div v-else class="todo-list">
