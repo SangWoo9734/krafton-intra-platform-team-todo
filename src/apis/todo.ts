@@ -36,7 +36,7 @@ export async function createTodo(input: TodoInput): Promise<Todo> {
     id: generateId(),
     title: input.title,
     completed: false,
-    importantLabel: input.importantLabel || null,
+    importantLabel: input.importantLabel ?? null,
     createdAt: now,
     updatedAt: now,
     deadline: null,
