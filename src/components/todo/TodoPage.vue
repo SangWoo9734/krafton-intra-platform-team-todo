@@ -6,6 +6,7 @@ import TodoItem from '@/components/todo/TodoItem.vue';
 import TodoAddForm from '@/components/todo/TodoAddForm.vue';
 import TodoEditForm from '@/components/todo/TodoEditForm.vue';
 import LoadingSpinner from '@/components/common/LoadingSpinner.vue';
+import EmptyState from '@/components/common/EmptyState.vue';
 
 const { todos, loading, addTodo } = useTodos();
 </script>
@@ -15,6 +16,7 @@ const { todos, loading, addTodo } = useTodos();
     <TodoHeader />
     <TodoAddButton class="todo-add-button" @onSubmit="addTodo" />
     <LoadingSpinner v-if="loading" />
+    <EmptyState v-else-if="todos.length === 0" />
     <div v-else class="todo-list">
       <TodoItem v-for="todo in todos" :key="todo.id" v-bind="todo" />
     </div>
