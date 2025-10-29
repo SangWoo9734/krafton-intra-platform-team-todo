@@ -1,9 +1,9 @@
 <script setup lang="ts">
 export interface IconButtonProps {
-  disabled?: boolean
-  type?: 'button' | 'submit' | 'reset'
-  variant?: 'default' | 'ghost' | 'danger'
-  class?: string
+  disabled?: boolean;
+  type?: 'button' | 'submit' | 'reset';
+  variant?: 'default' | 'ghost' | 'danger';
+  class?: string;
 }
 
 const props = withDefaults(defineProps<IconButtonProps>(), {
@@ -11,7 +11,7 @@ const props = withDefaults(defineProps<IconButtonProps>(), {
   type: 'button',
   variant: 'default',
   class: '',
-})
+});
 </script>
 
 <template>
@@ -20,7 +20,6 @@ const props = withDefaults(defineProps<IconButtonProps>(), {
     :disabled="disabled"
     :class="['icon-button', `variant-${variant}`, props.class]"
   >
-    <!-- �o<\ DtXD ��� -->
     <slot />
   </button>
 </template>
@@ -47,7 +46,6 @@ const props = withDefaults(defineProps<IconButtonProps>(), {
   opacity: 0.5;
 }
 
-/* Variants */
 .variant-default:hover:not(:disabled) {
   background-color: #f3f4f6;
 }
@@ -65,7 +63,6 @@ const props = withDefaults(defineProps<IconButtonProps>(), {
   color: #dc2626;
 }
 
-/* DtX l0 p */
 .icon-button :deep(svg) {
   height: 1.25rem;
   width: 1.25rem;
