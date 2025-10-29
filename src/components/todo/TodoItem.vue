@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { Todo } from '@/types/todo';
-import BasicToggle from './BasicToggle.vue';
-import IconButton from './IconButton.vue';
+import BasicToggle from '@/components/common/BasicToggle.vue';
+import IconButton from '@/components/common/IconButton.vue';
 import { TrashIcon, PencilSquareIcon } from '@heroicons/vue/16/solid';
-import BasicChip from './BasicChip.vue';
+import BasicChip from '@/components/common/BasicChip.vue';
 import { useTodos } from '@/composables/useTodos';
 import { useModal } from '@/composables/useModal';
 

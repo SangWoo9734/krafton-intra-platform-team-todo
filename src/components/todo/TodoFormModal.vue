@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { ImportantLabelVarients, Todo } from '@/types/todo';
 import { computed, ref, watch } from 'vue';
-import BasicButton from './BasicButton.vue';
+import BasicButton from '@/components/common/BasicButton.vue';
 import { useModal } from '@/composables/useModal';
 import { useTodos } from '@/composables/useTodos';
 import { useToast } from '@/composables/useToast';
@@ -36,7 +36,7 @@ const isEditMode = computed(() => !!modalData.value);
 
 const formValidation = (): boolean => {
   if (title.value.trim() === '') {
-    alert('Title is required');
+    showToast({ message: 'Title을 입력해주세요.', variant: 'error' });
     return false;
   }
   return true;
@@ -75,7 +75,9 @@ const handleSubmitTodo = async () => {
   <Teleport to="body">
     <div v-if="isOpen" class="form-modal-background" @click.self="closeModal">
       <div class="form-modal">
-        <label>Todo</label>
+        <h3>Todo {{ isEditMode ? '수정' : '추가' }}</h3>
+
+        <label>할 일</label>
         <input v-model="title" type="text" placeholder="Todo Title" />
         <label>중요도</label>
         <select v-model="importantLabel">

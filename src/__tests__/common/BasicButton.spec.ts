@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
-import BasicButton from '../BasicButton.vue'
+import BasicButton from '@/components/common/BasicButton.vue'
 
 describe('BasicButton', () => {
   it('슬롯 내용이 렌더링된다', () => {
