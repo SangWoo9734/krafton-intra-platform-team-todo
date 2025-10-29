@@ -35,6 +35,7 @@ export async function createTodo(input: TodoInput): Promise<Todo> {
   const newTodo: Todo = {
     id: generateId(),
     title: input.title,
+    content: input.content,
     completed: false,
     importantLabel: input.importantLabel ?? null,
     createdAt: now,
@@ -60,6 +61,7 @@ export async function editTodo(id: string, update: TodoUpdate): Promise<Todo> {
   const updatedTodo: Todo = {
     id: existingTodo.id,
     title: update.title ?? existingTodo.title,
+    content: update.content ?? existingTodo.content,
     completed: update.completed ?? existingTodo.completed,
     importantLabel:
       update.importantLabel !== undefined

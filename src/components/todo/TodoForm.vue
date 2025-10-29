@@ -6,6 +6,7 @@ import { useToast } from '@/composables/useToast';
 
 interface TodoFormData {
   title: string;
+  content: string;
   importantLabel: ImportantLabelVarients;
   deadline: Date | null;
 }
@@ -27,6 +28,7 @@ const emit = defineEmits<{
 const { showToast } = useToast();
 
 const title = ref<string>('');
+const content = ref<string>('');
 const importantLabel = ref<ImportantLabelVarients>('medium');
 const deadlineString = ref<string>('');
 
@@ -34,17 +36,22 @@ watch(
   () => props.initialData,
   (data) => {
     title.value = data.title;
+    content.value = data.content;
     importantLabel.value = data.importantLabel;
     deadlineString.value = data.deadline
-      ? new Date(data.deadline).toISOString().split('T')[0] ?? ''
+      ? (new Date(data.deadline).toISOString().split('T')[0] ?? '')
       : '';
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 const formValidation = (): boolean => {
   if (title.value.trim() === '') {
     showToast({ message: 'Title을 입력해주세요.', variant: 'error' });
+    return false;
+  }
+  if (content.value.trim() === '') {
+    showToast({ message: 'Content을 입력해주세요.', variant: 'error' });
     return false;
   }
   return true;
@@ -55,6 +62,7 @@ const handleSubmit = () => {
 
   const formData: TodoFormData = {
     title: title.value,
+    content: content.value,
     importantLabel: importantLabel.value,
     deadline: deadlineString.value ? new Date(deadlineString.value) : null,
   };
@@ -73,8 +81,10 @@ const handleClose = () => {
       <div class="form-modal">
         <h3>{{ modalTitle }}</h3>
 
-        <label>할 일</label>
+        <label>제목</label>
         <input v-model="title" type="text" placeholder="Todo Title" />
+        <label>내용</label>
+        <input v-model="content" type="text" placeholder="Todo Content" />
         <label>중요도</label>
         <select v-model="importantLabel">
           <option value="high">높음</option>

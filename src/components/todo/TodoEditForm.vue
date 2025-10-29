@@ -10,12 +10,15 @@ const { isOpen, modalType, modalData, closeModal } = useModal<Todo>();
 const { updateTodo } = useTodos();
 const { showToast } = useToast();
 
-const isEditFormOpen = computed(() => isOpen.value && modalType.value === 'edit');
+const isEditFormOpen = computed(
+  () => isOpen.value && modalType.value === 'edit',
+);
 
 const initialData = computed(() => {
   if (!modalData.value) {
     return {
       title: '',
+      content: '',
       importantLabel: 'medium' as ImportantLabelVarients,
       deadline: null,
     };
@@ -23,12 +26,19 @@ const initialData = computed(() => {
 
   return {
     title: modalData.value.title,
-    importantLabel: modalData.value.importantLabel || ('medium' as ImportantLabelVarients),
+    content: modalData.value.content,
+    importantLabel:
+      modalData.value.importantLabel || ('medium' as ImportantLabelVarients),
     deadline: modalData.value.deadline,
   };
 });
 
-const handleSubmit = async (data: { title: string; importantLabel: ImportantLabelVarients; deadline: Date | null }) => {
+const handleSubmit = async (data: {
+  title: string;
+  content: string;
+  importantLabel: ImportantLabelVarients;
+  deadline: Date | null;
+}) => {
   if (!modalData.value) return;
 
   try {

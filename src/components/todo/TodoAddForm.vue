@@ -15,11 +15,17 @@ const isAddFormOpen = computed(() => isOpen.value && modalType.value === 'add');
 
 const emptyTodoData = {
   title: '',
+  content: '',
   importantLabel: 'medium' as ImportantLabelVarients,
   deadline: null,
 };
 
-const handleSubmit = async (data: { title: string; importantLabel: ImportantLabelVarients; deadline: Date | null }) => {
+const handleSubmit = async (data: {
+  title: string;
+  content: string;
+  importantLabel: ImportantLabelVarients;
+  deadline: Date | null;
+}) => {
   try {
     await addTodo(data);
     showToast({ message: 'Todo 추가완료!', variant: 'success' });

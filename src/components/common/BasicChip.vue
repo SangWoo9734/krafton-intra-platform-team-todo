@@ -31,6 +31,7 @@ const chipVariantStyle: Record<ImportantLabelVarients, string> = {
   font-size: 10px;
   padding: 3px 8px;
   width: fit-content;
+  height: fit-content;
   font-weight: bold;
 }
 

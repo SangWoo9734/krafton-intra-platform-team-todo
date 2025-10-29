@@ -28,18 +28,9 @@ const handleEdit = () => {
   <div :class="['item-container', { 'item-completed': props.completed }]">
     <BasicToggle :isSelected="props.completed" :action="handleToggle" />
     <div class="item-content-wrapper">
-      <div class="global-flex-col global-justify-between">
+      <div class="global-flex-row global-justify-between">
         <p class="item-title">{{ props.title }}</p>
 
-        <div class="global-flex-row item-date-info-wrapper">
-          <p class="item-updated">{{ props.updatedAt.toDateString() }}</p>
-          <p class="text-divider">|</p>
-          <p class="item-created">{{ props.createdAt.toDateString() }}</p>
-        </div>
-      </div>
-      <div
-        class="global-flex-col global-justify-between global-items-end global-gap-2"
-      >
         <div class="global-flex-row global-gap-2">
           <BasicChip
             v-if="props.deadline"
@@ -50,6 +41,18 @@ const handleEdit = () => {
             :text="props.importantLabel"
             :variant="props.importantLabel"
           />
+        </div>
+      </div>
+      <div>
+        <p class="item-content">{{ props.content }}</p>
+      </div>
+      <div
+        class="global-flex-row global-justify-between global-items-end global-gap-2"
+      >
+        <div class="global-flex-row item-date-info-wrapper">
+          <p class="item-updated">{{ props.updatedAt.toDateString() }}</p>
+          <p class="text-divider">|</p>
+          <p class="item-created">{{ props.createdAt.toDateString() }}</p>
         </div>
         <div class="global-flex-row global-gap-2">
           <IconButton
@@ -74,7 +77,6 @@ const handleEdit = () => {
     align-items: center;
     background-color: #f5f7f9;
     border-radius: 8px;
-    display: flex;
     gap: 24px;
     margin-bottom: 12px;
     padding: 18px;
@@ -87,6 +89,11 @@ const handleEdit = () => {
   &-title {
     font-size: 18px;
     font-weight: 500;
+  }
+  &-content {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #4b5563;
   }
   &-completed {
     background-color: #f5f5f5;
@@ -109,7 +116,6 @@ const handleEdit = () => {
   }
   &-content-wrapper {
     flex: 1;
-    display: flex;
     justify-content: space-between;
 
     & .text-divider {
