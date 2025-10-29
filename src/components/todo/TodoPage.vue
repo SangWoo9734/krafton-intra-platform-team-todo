@@ -3,7 +3,9 @@ import { useTodos } from '@/composables/useTodos';
 import TodoHeader from '@/components/todo/TodoHeader.vue';
 import TodoAddButton from '@/components/todo/TodoAddButton.vue';
 import TodoItem from '@/components/todo/TodoItem.vue';
-import TodoFormModal from '@/components/todo/TodoFormModal.vue';
+import TodoAddForm from '@/components/todo/TodoAddForm.vue';
+import TodoEditForm from '@/components/todo/TodoEditForm.vue';
+import LoadingSpinner from '@/components/common/LoadingSpinner.vue';
 
 const { todos, loading, addTodo } = useTodos();
 </script>
@@ -12,13 +14,13 @@ const { todos, loading, addTodo } = useTodos();
   <div class="todo-page-container">
     <TodoHeader />
     <TodoAddButton class="todo-add-button" @onSubmit="addTodo" />
-    <div v-if="loading">Loading...</div>
+    <LoadingSpinner v-if="loading" />
     <div v-else class="todo-list">
       <TodoItem v-for="todo in todos" :key="todo.id" v-bind="todo" />
     </div>
 
-    <!-- Todo Modal -->
-    <TodoFormModal />
+    <TodoAddForm />
+    <TodoEditForm />
   </div>
 </template>
 
