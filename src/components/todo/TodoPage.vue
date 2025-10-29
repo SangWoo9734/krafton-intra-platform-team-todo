@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { useTodos } from '@/composables/useTodos';
-import TodoHeader from './TodoHeader.vue';
-import TodoAddButton from './TodoAddButton.vue';
-import TodoItem from './TodoItem.vue';
+import TodoHeader from '@/components/todo/TodoHeader.vue';
+import TodoAddButton from '@/components/todo/TodoAddButton.vue';
+import TodoItem from '@/components/todo/TodoItem.vue';
+import TodoFormModal from '@/components/todo/TodoFormModal.vue';
 
 const { todos, loading, addTodo } = useTodos();
 </script>
@@ -15,6 +16,9 @@ const { todos, loading, addTodo } = useTodos();
     <div v-else class="todo-list">
       <TodoItem v-for="todo in todos" :key="todo.id" v-bind="todo" />
     </div>
+
+    <!-- Todo Modal -->
+    <TodoFormModal />
   </div>
 </template>
 
