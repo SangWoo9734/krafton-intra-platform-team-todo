@@ -53,7 +53,7 @@ const handleEdit = () => {
         </div>
         <div class="global-flex-row global-gap-2">
           <IconButton
-            :v-if="!props.completed"
+            v-if="!props.completed"
             @click="handleEdit"
             class="icon-edit"
           >
