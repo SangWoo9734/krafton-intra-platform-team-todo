@@ -2,9 +2,11 @@ import { ref, computed, type Ref } from 'vue';
 
 const isOpen = ref(false);
 const modalData = ref<unknown>(null);
+const modalType = ref<string | null>(null);
 
 export function useModal<T = unknown>() {
-  const openModal = (data?: T) => {
+  const openModal = (type: string, data?: T) => {
+    modalType.value = type;
     if (data !== undefined) {
       modalData.value = data;
     }
@@ -14,6 +16,7 @@ export function useModal<T = unknown>() {
   const closeModal = () => {
     isOpen.value = false;
     modalData.value = null;
+    modalType.value = null;
   };
 
   const toggleModal = () => {
@@ -25,6 +28,7 @@ export function useModal<T = unknown>() {
   return {
     isOpen,
     modalData: typedModalData as Ref<T | null>,
+    modalType: computed(() => modalType.value),
     openModal,
     closeModal,
     toggleModal,

@@ -1,38 +1,46 @@
 <script setup lang="ts">
-import type { ImportantLabelVarients, Todo } from '@/types/todo';
-import { computed, ref, watch } from 'vue';
+import type { ImportantLabelVarients } from '@/types/todo';
+import { ref, watch } from 'vue';
 import BasicButton from '@/components/common/BasicButton.vue';
-import { useModal } from '@/composables/useModal';
-import { useTodos } from '@/composables/useTodos';
 import { useToast } from '@/composables/useToast';
 
-const { isOpen, modalData, closeModal } = useModal<Todo>();
-const { addTodo, updateTodo } = useTodos();
+interface TodoFormData {
+  title: string;
+  importantLabel: ImportantLabelVarients;
+  deadline: Date | null;
+}
+
+interface Props {
+  isOpen: boolean;
+  initialData: TodoFormData;
+  submitLabel: string;
+  modalTitle: string;
+}
+
+const props = defineProps<Props>();
+
+const emit = defineEmits<{
+  close: [];
+  submit: [data: TodoFormData];
+}>();
+
 const { showToast } = useToast();
 
 const title = ref<string>('');
 const importantLabel = ref<ImportantLabelVarients>('medium');
 const deadlineString = ref<string>('');
 
-watch(modalData, (data) => {
-  if (data) {
+watch(
+  () => props.initialData,
+  (data) => {
     title.value = data.title;
-    importantLabel.value = data.importantLabel || 'medium';
-
-    const deadlineDate = data.deadline ? new Date(data.deadline) : null;
-
-    deadlineString.value = deadlineDate
-      ? (deadlineDate.toISOString().split('T')[0] ?? '')
+    importantLabel.value = data.importantLabel;
+    deadlineString.value = data.deadline
+      ? new Date(data.deadline).toISOString().split('T')[0] ?? ''
       : '';
-  } else {
-    // 새로 추가 모드 - 초기화
-    title.value = '';
-    importantLabel.value = 'medium';
-    deadlineString.value = '';
-  }
-});
-
-const isEditMode = computed(() => !!modalData.value);
+  },
+  { immediate: true }
+);
 
 const formValidation = (): boolean => {
   if (title.value.trim() === '') {
@@ -42,40 +50,28 @@ const formValidation = (): boolean => {
   return true;
 };
 
-const handleSubmitTodo = async () => {
+const handleSubmit = () => {
   if (!formValidation()) return;
 
-  const todoInput = {
+  const formData: TodoFormData = {
     title: title.value,
     importantLabel: importantLabel.value,
     deadline: deadlineString.value ? new Date(deadlineString.value) : null,
   };
 
-  try {
-    if (modalData.value) {
-      // 수정 모드
-      await updateTodo(modalData.value.id, todoInput);
-      showToast({ message: 'Todo 수정완료!', variant: 'success' });
-    } else {
-      // 추가 모드
-      await addTodo(todoInput);
-      showToast({ message: 'Todo 추가완료!', variant: 'success' });
-    }
-    closeModal();
-  } catch {
-    showToast({
-      message: modalData.value ? 'Todo 수정실패!' : 'Todo 추가실패!',
-      variant: 'error',
-    });
-  }
+  emit('submit', formData);
+};
+
+const handleClose = () => {
+  emit('close');
 };
 </script>
 
 <template>
   <Teleport to="body">
-    <div v-if="isOpen" class="form-modal-background" @click.self="closeModal">
+    <div v-if="isOpen" class="form-modal-background" @click.self="handleClose">
       <div class="form-modal">
-        <h3>Todo {{ isEditMode ? '수정' : '추가' }}</h3>
+        <h3>{{ modalTitle }}</h3>
 
         <label>할 일</label>
         <input v-model="title" type="text" placeholder="Todo Title" />
@@ -87,13 +83,12 @@ const handleSubmitTodo = async () => {
         </select>
         <label>마감기한</label>
         <input v-model="deadlineString" type="date" />
-        <BasicButton @click="handleSubmitTodo">{{
-          isEditMode ? '수정하기' : '추가하기'
-        }}</BasicButton>
+        <BasicButton @click="handleSubmit">{{ submitLabel }}</BasicButton>
       </div>
     </div>
   </Teleport>
 </template>
+
 <style scoped lang="scss">
 .form-modal-background {
   position: fixed;

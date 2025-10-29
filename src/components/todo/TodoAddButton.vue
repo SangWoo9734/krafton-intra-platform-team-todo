@@ -14,7 +14,7 @@ const props = withDefaults(
 const { openModal } = useModal();
 
 const handleAddTodo = () => {
-  openModal();
+  openModal('add');
 };
 </script>
 

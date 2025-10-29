@@ -21,7 +21,7 @@ const handleDelete = () => {
 };
 
 const handleEdit = () => {
-  openModal(props);
+  openModal('edit', props);
 };
 </script>
 <template>
