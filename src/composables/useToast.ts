@@ -14,7 +14,7 @@ export function useToast() {
       id: generateId(),
       message: input.message,
       variant: input.variant || 'success',
-      duration: input.duration || 3000,
+      duration: input.duration || 1500,
     };
 
     toasts.value.push(toast);
