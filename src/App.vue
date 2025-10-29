@@ -1,11 +1,19 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import BasicLayout from '@/components/BasicLayout.vue';
+import ToastContainer from './components/ToastContainer.vue';
+import ModalContainer from './components/ModalContainer.vue';
+import TodoPage from './components/TodoPage.vue';
+</script>
 
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <BasicLayout>
+    <!-- Pages -->
+    <TodoPage />
+
+    <!-- Teleport Components -->
+    <ModalContainer />
+    <ToastContainer />
+  </BasicLayout>
 </template>
 
 <style scoped></style>
