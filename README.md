@@ -1,5 +1,9 @@
 # KRAFTON Intra Platform Team - TODO List
 
+## 과제 배포 링크
+
+https://krafton-intra-platform-team-todo.vercel.app/
+
 ## 🚀 실행 방법
 
 ### 설치
