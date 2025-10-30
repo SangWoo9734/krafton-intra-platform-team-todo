@@ -1,4 +1,4 @@
-import type { FormField } from '@/types/form';
+import type { FormField, FormFieldOption } from '@/types/form';
 
 /**
  * Todo 관련 상수
@@ -15,11 +15,11 @@ export type ImportanceLevel =
   (typeof IMPORTANCE_LEVELS)[keyof typeof IMPORTANCE_LEVELS];
 
 // 중요도 선택 옵션
-export const IMPORTANCE_OPTIONS = [
+export const IMPORTANCE_OPTIONS: FormFieldOption[] = [
   { label: '높음', value: IMPORTANCE_LEVELS.HIGH },
   { label: '보통', value: IMPORTANCE_LEVELS.MEDIUM },
   { label: '낮음', value: IMPORTANCE_LEVELS.LOW },
-] as const;
+];
 
 // Todo ID 접두사
 export const TODO_ID_PREFIX = 'td-';
