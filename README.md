@@ -55,13 +55,23 @@ npm run test:unit
 
 **공통 컴포넌트**
 
-- `BasicButton` - 재사용 가능한 버튼 컴포넌트
-- `BasicChip` - 우선순위, 마감일 표시 칩 컴포넌트
-- `BasicToggle` - 완료/미완료 토글 컴포넌트
-- `BasicLayout` - 페이지 레이아웃 컴포넌트
-- `IconButton` - 아이콘 버튼 컴포넌트
-- `LoadingSpinner` - 로딩 상태 표시 컴포넌트
-- `EmptyState` - 빈 상태 안내 컴포넌트
+- 기본 컴포넌트 (`common/basic/`)
+  - `BasicButton` - 재사용 가능한 버튼 컴포넌트
+  - `BasicChip` - 우선순위, 마감일 표시 칩 컴포넌트
+  - `BasicToggle` - 완료/미완료 토글 컴포넌트
+  - `BasicLayout` - 페이지 레이아웃 컴포넌트
+- 폼 컴포넌트 (`common/form/`)
+  - `DynamicForm` - 데이터 기반 동적 폼 생성
+  - `FormInput` - 텍스트/텍스트영역 입력
+  - `FormSelect` - 선택 입력
+  - `FormDatePicker` - 날짜 선택
+- 기타 (`common/`)
+  - `IconButton` - 아이콘 버튼 컴포넌트
+  - `LoadingSpinner` - 로딩 상태 표시 컴포넌트
+  - `EmptyState` - 빈 상태 안내 컴포넌트
+
+**Toast 시스템**
+
 - `ToastContainer` - Toast 메시지 컨테이너
 - `ToastItem` - 개별 Toast 메시지
 
@@ -94,6 +104,15 @@ npm run test:unit
 - **빈 목록 UI**: 할 일이 없을 때 EmptyState 컴포넌트로 안내
 - **에러 피드백**: Toast 메시지로 사용자에게 명확한 피드백 제공
 - **입력 검증**: 제목과 내용 필수 입력 검증
+- **실시간 폼 검증**: 필드별 에러 상태 표시 및 실시간 에러 초기화
+
+### 접근성 (Accessibility)
+
+- **폼 접근성**: label-input 연결 (`for`/`id`), `aria-invalid`, `aria-describedby`
+- **모달 접근성**: `role="dialog"`, `aria-modal`, `aria-labelledby`
+- **토글 접근성**: `role="checkbox"`, `aria-checked`
+- **버튼 접근성**: 아이콘 버튼에 `aria-label`, 확장 버튼에 `aria-expanded`
+- **Toast 접근성**: `aria-live`, `role="status"`, `role="alert"`
 
 <br />
 
@@ -107,6 +126,7 @@ npm run test:unit
 ### 컴포넌트 재사용성
 
 - 도메인별 디렉토리 구조 (`common`, `todo`, `toast`)
+- 공통 컴포넌트 세분화 (`basic/`, `form/`)로 역할별 명확한 분리
 - Props 기반 설정으로 다양한 상황에서 재사용 가능한 컴포넌트 설계
 
 ### 데이터 기반 폼 시스템
@@ -126,6 +146,12 @@ npm run test:unit
 - Composables로 비즈니스 로직 중앙화
 - Vue 3 Composition API 활용
 
+### 상수 관리
+
+- **색상 상수** (`constants/colors.ts`): 일관된 디자인 시스템 유지
+- **Todo 상수** (`constants/todo.ts`): 폼 필드, 중요도 옵션, 레이블 등 중앙 관리
+- 유지보수성 향상 및 향후 다국어 지원 준비
+
 <br />
 
 ## 📂 프로젝트 구조
@@ -134,10 +160,14 @@ npm run test:unit
 src/
 ├── apis/              # API 통신 로직 (LocalStorage 기반)
 ├── components/        # 컴포넌트 (도메인별 구조)
-│   ├── common/        # 공통 컴포넌트 (Button, Form, Layout 등)
+│   ├── common/        # 공통 컴포넌트
+│   │   ├── basic/     # 기본 UI 컴포넌트 (Button, Chip, Toggle, Layout)
+│   │   ├── form/      # 폼 관련 컴포넌트 (DynamicForm, Input, Select, DatePicker)
+│   │   └── ...        # 기타 공통 컴포넌트 (IconButton, LoadingSpinner, EmptyState)
 │   ├── todo/          # Todo 도메인 컴포넌트
 │   └── toast/         # Toast 시스템
 ├── composables/       # Composition API 비즈니스 로직
+├── constants/         # 상수 정의 (colors, todo 등)
 ├── types/             # TypeScript 타입 정의
 ├── utils/             # 유틸리티 함수
 ├── App.vue            # 루트 컴포넌트
