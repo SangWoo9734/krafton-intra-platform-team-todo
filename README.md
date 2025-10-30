@@ -109,6 +109,14 @@ npm run test:unit
 - 도메인별 디렉토리 구조 (`common`, `todo`, `toast`)
 - Props 기반 설정으로 다양한 상황에서 재사용 가능한 컴포넌트 설계
 
+### 데이터 기반 폼 시스템
+
+- **DynamicForm 패턴**: 폼 필드를 데이터로 정의하여 UI 자동 생성
+- **FormField 타입**: `{ name, label, type, required, placeholder?, options? }`로 필드 정의
+- **자동 Validation**: required 필드를 formFields 배열에서 자동으로 검증
+- **확장성**: 새 필드 추가 시 formFields 배열만 수정하면 템플릿/상태/validation 자동 처리
+- **컴포넌트 분리**: FormInput, FormSelect, FormDatePicker 등 타입별 입력 컴포넌트
+
 ### 명확한 에러 피드백
 
 - Toast 메시지로 사용자에게 명확한 피드백 제공
@@ -124,37 +132,16 @@ npm run test:unit
 
 ```
 src/
-├── apis/                         # API 통신 로직
-│   └── todo.ts
-├── components/                   # 컴포넌트 (도메인별 구분 적용)
-│   ├── common/                   # 공통 컴포넌트
-│   │   ├── BasicButton.vue
-│   │   ├── BasicChip.vue
-│   │   ├── BasicLayout.vue
-│   │   ├── BasicToggle.vue
-│   │   ├── EmptyState.vue
-│   │   ├── IconButton.vue
-│   │   └── LoadingSpinner.vue
-│   ├── todo/                     # Todo 도메인 컴포넌트
-│   │   ├── TodoPage.vue
-│   │   ├── TodoItem.vue
-│   │   ├── TodoForm.vue
-│   │   ├── TodoAddForm.vue
-│   │   ├── TodoEditForm.vue
-│   │   └── TodoAddButton.vue
-│   └── toast/                    # Toast 시스템
-│       ├── ToastContainer.vue
-│       └── ToastItem.vue
-├── composables/                  # Composition API 로직
-│   ├── useModal.ts
-│   ├── useTodos.ts
-│   └── useToast.ts
-├── types/                        # 타입 관련 파일
-│   └── todo.ts
-├── utils/                        # 유틸리티 함수
-│   └── storage.ts
-├── App.vue
-└── main.ts
+├── apis/              # API 통신 로직 (LocalStorage 기반)
+├── components/        # 컴포넌트 (도메인별 구조)
+│   ├── common/        # 공통 컴포넌트 (Button, Form, Layout 등)
+│   ├── todo/          # Todo 도메인 컴포넌트
+│   └── toast/         # Toast 시스템
+├── composables/       # Composition API 비즈니스 로직
+├── types/             # TypeScript 타입 정의
+├── utils/             # 유틸리티 함수
+├── App.vue            # 루트 컴포넌트
+└── main.ts            # 애플리케이션 엔트리
 ```
 
 <br/>

@@ -125,6 +125,47 @@ TodoEditForm.vue     - TodoForm을 감싸서 todo 데이터 + updateTodo 로직
 - 불필요한 Props 제거
 - null 병합 연산자(??) vs OR 연산자(||) 사용 개선
 
+### 7. 데이터 기반 폼 시스템 설계
+
+**상황**: TodoForm에 필드가 추가될 때마다 템플릿, 상태, validation 로직을 모두 수정해야 하는 문제
+
+**프롬프트**:
+
+> "폼에 필수 필드 표시 기능을 추가하고 싶다. 지금은 title, content를 직접 주입해서 사용하는데, 폼을 { label, type, required } 같은 데이터로 관리해서 확장성을 높이고 싶다. 단, 폼 레이아웃 데이터와 컴포넌트 상태 연동이 어려울 것 같다."
+
+**AI 제안**:
+
+- 옵션 1: v-model 기반 - `formData[field.name]`으로 바인딩
+- 옵션 2: Emit 기반 - 각 컴포넌트에서 `@update:modelValue` emit
+
+**내 의사결정**:
+
+- v-model 기반 방식 채택 (Vue의 네이티브 양방향 바인딩 활용)
+- FormField 타입 정의: `{ name, label, type, required, placeholder?, options? }`
+- formFields 배열만 수정하면 UI 자동 생성되도록 설계
+
+<br/>
+
+**AI 구현 및 검증**:
+
+1. **타입 정의** (`types/form.ts`)
+   - FormFieldType: 'text' | 'textarea' | 'select' | 'date'
+   - FormField 인터페이스 정의
+
+2. **공통 Form 컴포넌트 생성**
+   - `FormInput.vue`: text, textarea 처리
+   - `FormSelect.vue`: select 처리
+   - `FormDatePicker.vue`: date 처리
+
+3. **DynamicForm 컴포넌트**
+   - formFields 순회하며 적절한 컴포넌트 렌더링
+   - v-model로 양방향 바인딩: `v-model="formData[field.name]"`
+
+4. **TodoForm 리팩토링**
+   - 40줄의 템플릿 코드 → 5줄 (DynamicForm 사용)
+   - formFields 배열만 정의하면 자동 렌더링
+   - validation 로직 자동화 (required 필드만 체크)
+
 <br />
 
 ## AI 생성 코드 반영 범위
