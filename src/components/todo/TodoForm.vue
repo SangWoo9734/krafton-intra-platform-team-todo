@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import type { ImportantLabelVarients } from '@/types/todo';
-import { ref, watch } from 'vue';
+import type { FormField } from '@/types/form';
+import { reactive, watch } from 'vue';
 import BasicButton from '@/components/common/BasicButton.vue';
+import DynamicForm from '@/components/common/DynamicForm.vue';
 import { useToast } from '@/composables/useToast';
 
 interface TodoFormData {
@@ -27,18 +29,54 @@ const emit = defineEmits<{
 
 const { showToast } = useToast();
 
-const title = ref<string>('');
-const content = ref<string>('');
-const importantLabel = ref<ImportantLabelVarients>('medium');
-const deadlineString = ref<string>('');
+const formFields: FormField[] = [
+  {
+    name: 'title',
+    label: '제목',
+    type: 'text',
+    required: true,
+    placeholder: 'Todo 제목을 입력하세요',
+  },
+  {
+    name: 'content',
+    label: '내용',
+    type: 'textarea',
+    required: true,
+    placeholder: 'Todo 내용을 입력하세요',
+  },
+  {
+    name: 'importantLabel',
+    label: '중요도',
+    type: 'select',
+    required: false,
+    options: [
+      { label: '높음', value: 'high' },
+      { label: '보통', value: 'medium' },
+      { label: '낮음', value: 'low' },
+    ],
+  },
+  {
+    name: 'deadlineString',
+    label: '마감기한',
+    type: 'date',
+    required: false,
+  },
+];
+
+const formData = reactive({
+  title: '',
+  content: '',
+  importantLabel: 'medium',
+  deadlineString: '',
+});
 
 watch(
   () => props.initialData,
   (data) => {
-    title.value = data.title;
-    content.value = data.content;
-    importantLabel.value = data.importantLabel;
-    deadlineString.value = data.deadline
+    formData.title = data.title;
+    formData.content = data.content;
+    formData.importantLabel = data.importantLabel;
+    formData.deadlineString = data.deadline
       ? (new Date(data.deadline).toISOString().split('T')[0] ?? '')
       : '';
   },
@@ -46,13 +84,17 @@ watch(
 );
 
 const formValidation = (): boolean => {
-  if (title.value.trim() === '') {
-    showToast({ message: 'Title을 입력해주세요.', variant: 'error' });
-    return false;
-  }
-  if (content.value.trim() === '') {
-    showToast({ message: 'Content을 입력해주세요.', variant: 'error' });
-    return false;
+  for (const field of formFields) {
+    if (field.required) {
+      const value = formData[field.name as keyof typeof formData];
+      if (!value || String(value).trim() === '') {
+        showToast({
+          message: `${field.label}을(를) 입력해주세요.`,
+          variant: 'error'
+        });
+        return false;
+      }
+    }
   }
   return true;
 };
@@ -60,14 +102,14 @@ const formValidation = (): boolean => {
 const handleSubmit = () => {
   if (!formValidation()) return;
 
-  const formData: TodoFormData = {
-    title: title.value,
-    content: content.value,
-    importantLabel: importantLabel.value,
-    deadline: deadlineString.value ? new Date(deadlineString.value) : null,
+  const submitData: TodoFormData = {
+    title: formData.title,
+    content: formData.content,
+    importantLabel: formData.importantLabel as ImportantLabelVarients,
+    deadline: formData.deadlineString ? new Date(formData.deadlineString) : null,
   };
 
-  emit('submit', formData);
+  emit('submit', submitData);
 };
 
 const handleClose = () => {
@@ -81,18 +123,11 @@ const handleClose = () => {
       <div class="form-modal">
         <h3>{{ modalTitle }}</h3>
 
-        <label>제목</label>
-        <input v-model="title" type="text" placeholder="Todo Title" />
-        <label>내용</label>
-        <input v-model="content" type="text" placeholder="Todo Content" />
-        <label>중요도</label>
-        <select v-model="importantLabel">
-          <option value="high">높음</option>
-          <option value="medium">보통</option>
-          <option value="low">낮음</option>
-        </select>
-        <label>마감기한</label>
-        <input v-model="deadlineString" type="date" />
+        <DynamicForm
+          :fields="formFields"
+          v-model="formData"
+        />
+
         <BasicButton @click="handleSubmit">{{ submitLabel }}</BasicButton>
       </div>
     </div>
@@ -111,22 +146,31 @@ const handleClose = () => {
   align-items: center;
   justify-content: center;
   padding: 16px;
+  z-index: 1000;
 }
+
 .form-modal {
-  max-width: 400px;
+  max-width: 500px;
   width: 100%;
   background-color: #ffffff;
   padding: 20px;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 20px;
   max-height: 90vh;
   overflow-y: auto;
 
   @media (min-width: 768px) {
     padding: 24px;
-    width: 80%;
+    width: 90%;
+  }
+
+  h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #111827;
   }
 }
 </style>
