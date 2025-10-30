@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import FormDatePicker from '@/components/common/FormDatePicker.vue';
-import FormInput from '@/components/common/FormInput.vue';
-import FormSelect from '@/components/common/FormSelect.vue';
+import FormDatePicker from '@/components/common/form/FormDatePicker.vue';
+import FormInput from '@/components/common/form/FormInput.vue';
+import FormSelect from '@/components/common/form/FormSelect.vue';
 import type { FormField } from '@/types/form';
 
 interface Props {

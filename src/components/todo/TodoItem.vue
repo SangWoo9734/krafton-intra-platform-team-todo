@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import BasicChip from '@/components/common/BasicChip.vue';
-import BasicToggle from '@/components/common/BasicToggle.vue';
+import BasicChip from '@/components/common/basic/BasicChip.vue';
+import BasicToggle from '@/components/common/basic/BasicToggle.vue';
 import IconButton from '@/components/common/IconButton.vue';
-import { TODO_ITEM_LABELS } from '@/constants/todo';
 import { useModal } from '@/composables/useModal';
 import { useTodos } from '@/composables/useTodos';
+import { TODO_ITEM_LABELS } from '@/constants/todo';
 import type { Todo } from '@/types/todo';
 import {
   ChevronDownIcon,

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import BasicLayout from '@/components/common/BasicLayout.vue';
+import BasicLayout from '@/components/common/basic/BasicLayout.vue';
 import ToastContainer from '@/components/toast/ToastContainer.vue';
 import TodoPage from '@/components/todo/TodoPage.vue';
 </script>

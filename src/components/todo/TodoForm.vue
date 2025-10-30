@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import BasicButton from '@/components/common/BasicButton.vue';
-import DynamicForm from '@/components/common/DynamicForm.vue';
-import { DEFAULT_IMPORTANCE, TODO_FORM_FIELDS } from '@/constants/todo';
+import BasicButton from '@/components/common/basic/BasicButton.vue';
+import DynamicForm from '@/components/common/form/DynamicForm.vue';
 import { useToast } from '@/composables/useToast';
+import { DEFAULT_IMPORTANCE, TODO_FORM_FIELDS } from '@/constants/todo';
 import type { FormField } from '@/types/form';
 import type { ImportantLabelVarients } from '@/types/todo';
 import { reactive, watch } from 'vue';

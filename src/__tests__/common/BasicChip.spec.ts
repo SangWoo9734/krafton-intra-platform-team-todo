@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
-import BasicChip from '@/components/common/BasicChip.vue'
+import BasicChip from '@/components/common/basic/BasicChip.vue'
 
 describe('BasicChip', () => {
   it('텍스트가 대문자로 렌더링된다', () => {
