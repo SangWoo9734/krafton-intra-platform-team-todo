@@ -178,5 +178,5 @@ src/
 
 ## 🔍 참고 문서
 
-- **AI 활용**: `ai-notes.md` 참고 (링크)
-- **프로젝트 규칙**: `CLAUDE.md` 참고 (링크)
+- **AI 활용**: `ai-notes.md` 참고 ([링크](https://github.com/SangWoo9734/krafton-intra-platform-team-todo/blob/main/ai-notes.md))
+- **프로젝트 규칙**: `CLAUDE.md` 참고 ([링크](https://github.com/SangWoo9734/krafton-intra-platform-team-todo/blob/main/CLAUDE.md))
