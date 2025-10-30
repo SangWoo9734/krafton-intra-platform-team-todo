@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import type { ImportantLabelVarients } from '@/types/todo';
-import type { FormField } from '@/types/form';
-import { reactive, watch } from 'vue';
 import BasicButton from '@/components/common/BasicButton.vue';
 import DynamicForm from '@/components/common/DynamicForm.vue';
+import { DEFAULT_IMPORTANCE, TODO_FORM_FIELDS } from '@/constants/todo';
 import { useToast } from '@/composables/useToast';
+import type { FormField } from '@/types/form';
+import type { ImportantLabelVarients } from '@/types/todo';
+import { reactive, watch } from 'vue';
 
 interface TodoFormData {
   title: string;
@@ -29,44 +30,19 @@ const emit = defineEmits<{
 
 const { showToast } = useToast();
 
-const formFields: FormField[] = [
-  {
-    name: 'title',
-    label: '제목',
-    type: 'text',
-    required: true,
-    placeholder: 'Todo 제목을 입력하세요',
-  },
-  {
-    name: 'content',
-    label: '내용',
-    type: 'textarea',
-    required: true,
-    placeholder: 'Todo 내용을 입력하세요',
-  },
-  {
-    name: 'importantLabel',
-    label: '중요도',
-    type: 'select',
-    required: false,
-    options: [
-      { label: '높음', value: 'high' },
-      { label: '보통', value: 'medium' },
-      { label: '낮음', value: 'low' },
-    ],
-  },
-  {
-    name: 'deadlineString',
-    label: '마감기한',
-    type: 'date',
-    required: false,
-  },
-];
+const formFields = reactive<FormField[]>(
+  TODO_FORM_FIELDS.map((field) => ({ ...field })),
+);
 
-const formData = reactive({
+const formData = reactive<{
+  title: string;
+  content: string;
+  importantLabel: ImportantLabelVarients;
+  deadlineString: string;
+}>({
   title: '',
   content: '',
-  importantLabel: 'medium',
+  importantLabel: DEFAULT_IMPORTANCE as ImportantLabelVarients,
   deadlineString: '',
 });
 
@@ -79,24 +55,56 @@ watch(
     formData.deadlineString = data.deadline
       ? (new Date(data.deadline).toISOString().split('T')[0] ?? '')
       : '';
+
+    formFields.forEach((field) => {
+      field.invalid = false;
+      field.message = '';
+    });
   },
   { immediate: true },
 );
 
+watch(
+  () => formData,
+  () => {
+    formFields.forEach((field) => {
+      const value = formData[field.name as keyof typeof formData];
+      if (value && String(value).trim() !== '') {
+        field.invalid = false;
+        field.message = '';
+      }
+    });
+  },
+  { deep: true },
+);
+
 const formValidation = (): boolean => {
+  let isValid = true;
+
+  formFields.forEach((field) => {
+    field.invalid = false;
+    field.message = '';
+  });
+
   for (const field of formFields) {
     if (field.required) {
       const value = formData[field.name as keyof typeof formData];
       if (!value || String(value).trim() === '') {
-        showToast({
-          message: `${field.label}을(를) 입력해주세요.`,
-          variant: 'error'
-        });
-        return false;
+        field.invalid = true;
+        field.message = `${field.label}을(를) 입력해주세요.`;
+        isValid = false;
       }
     }
   }
-  return true;
+
+  if (!isValid) {
+    showToast({
+      message: '필수 항목을 입력해주세요.',
+      variant: 'error',
+    });
+  }
+
+  return isValid;
 };
 
 const handleSubmit = () => {
@@ -106,7 +114,9 @@ const handleSubmit = () => {
     title: formData.title,
     content: formData.content,
     importantLabel: formData.importantLabel as ImportantLabelVarients,
-    deadline: formData.deadlineString ? new Date(formData.deadlineString) : null,
+    deadline: formData.deadlineString
+      ? new Date(formData.deadlineString)
+      : null,
   };
 
   emit('submit', submitData);
@@ -119,14 +129,18 @@ const handleClose = () => {
 
 <template>
   <Teleport to="body">
-    <div v-if="isOpen" class="form-modal-background" @click.self="handleClose">
+    <div
+      v-if="isOpen"
+      class="form-modal-background"
+      @click.self="handleClose"
+      role="dialog"
+      :aria-modal="isOpen"
+      aria-labelledby="modal-title"
+    >
       <div class="form-modal">
-        <h3>{{ modalTitle }}</h3>
+        <h3 id="modal-title">{{ modalTitle }}</h3>
 
-        <DynamicForm
-          :fields="formFields"
-          v-model="formData"
-        />
+        <DynamicForm :fields="formFields" v-model="formData" />
 
         <BasicButton @click="handleSubmit">{{ submitLabel }}</BasicButton>
       </div>

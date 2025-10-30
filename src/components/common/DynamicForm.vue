@@ -39,6 +39,8 @@ const getFieldValue = (fieldName: string): string => {
       <FormInput
         v-if="field.type === 'text' || field.type === 'textarea'"
         :id="field.name"
+        :invalid="field.invalid"
+        :error-message="field.message"
         :model-value="getFieldValue(field.name)"
         :type="field.type"
         :placeholder="field.placeholder"
@@ -50,6 +52,8 @@ const getFieldValue = (fieldName: string): string => {
       <FormSelect
         v-else-if="field.type === 'select'"
         :id="field.name"
+        :invalid="field.invalid"
+        :error-message="field.message"
         :model-value="getFieldValue(field.name)"
         :options="field.options || []"
         :required="field.required"
@@ -60,6 +64,8 @@ const getFieldValue = (fieldName: string): string => {
       <FormDatePicker
         v-else-if="field.type === 'date'"
         :id="field.name"
+        :invalid="field.invalid"
+        :error-message="field.message"
         :model-value="getFieldValue(field.name)"
         :required="field.required"
         @update:model-value="(value) => updateField(field.name, value)"

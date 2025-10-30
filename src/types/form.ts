@@ -12,4 +12,6 @@ export interface FormField {
   required: boolean;
   placeholder?: string;
   options?: FormFieldOption[];
+  invalid?: boolean;
+  message?: string;
 }
