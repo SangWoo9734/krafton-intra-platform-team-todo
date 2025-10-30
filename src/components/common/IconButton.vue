@@ -2,7 +2,7 @@
 export interface IconButtonProps {
   disabled?: boolean;
   type?: 'button' | 'submit' | 'reset';
-  variant?: 'default' | 'ghost' | 'danger';
+  variant?: 'default' | 'blue' | 'red';
   class?: string;
 }
 
@@ -34,11 +34,7 @@ const props = withDefaults(defineProps<IconButtonProps>(), {
   display: inline-flex;
   justify-content: center;
   padding: 0.5rem;
-  transition: background-color 0.2s;
-}
-
-.icon-button:hover:not(:disabled) {
-  background-color: #f3f4f6;
+  transition: all 0.2s;
 }
 
 .icon-button:disabled {
@@ -46,19 +42,32 @@ const props = withDefaults(defineProps<IconButtonProps>(), {
   opacity: 0.5;
 }
 
+.variant-default {
+  background-color: transparent;
+  color: #6b7280;
+}
+
 .variant-default:hover:not(:disabled) {
   background-color: #f3f4f6;
+  color: #374151;
 }
 
-.variant-ghost {
+.variant-blue {
   background-color: transparent;
+  color: #3b82f6;
 }
 
-.variant-ghost:hover:not(:disabled) {
-  background-color: #f3f4f6;
+.variant-blue:hover:not(:disabled) {
+  background-color: #dbeafe;
+  color: #2563eb;
 }
 
-.variant-danger:hover:not(:disabled) {
+.variant-red {
+  background-color: transparent;
+  color: #ef4444;
+}
+
+.variant-red:hover:not(:disabled) {
   background-color: #fee2e2;
   color: #dc2626;
 }

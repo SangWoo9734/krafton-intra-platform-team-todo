@@ -110,15 +110,23 @@ const handleClose = () => {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 16px;
 }
 .form-modal {
   max-width: 400px;
-  width: 80%;
+  width: 100%;
   background-color: #ffffff;
-  padding: 24px;
+  padding: 20px;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
   gap: 12px;
+  max-height: 90vh;
+  overflow-y: auto;
+
+  @media (min-width: 768px) {
+    padding: 24px;
+    width: 80%;
+  }
 }
 </style>
