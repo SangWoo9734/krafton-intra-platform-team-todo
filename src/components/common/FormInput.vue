@@ -46,23 +46,23 @@ const handleInput = (event: Event) => {
 <style scoped>
 .form-input,
 .form-textarea {
-  width: 100%;
   border: 1px solid #d1d5db;
   border-radius: 0.375rem;
-  padding: 0.625rem;
   font-size: 0.875rem;
-  transition: border-color 0.2s;
   outline: none;
+  padding: 0.625rem;
+  transition: border-color 0.2s;
+  width: 100%;
 }
 
 .form-input:focus,
 .form-textarea:focus {
   border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  box-shadow: 0 0 0 3px rgb(59 130 246 / 10%);
 }
 
 .form-textarea {
-  resize: vertical;
   min-height: 80px;
+  resize: vertical;
 }
 </style>

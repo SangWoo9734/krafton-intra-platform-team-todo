@@ -29,10 +29,10 @@ const chipVariantStyle: Record<ImportantLabelVarients, string> = {
   border-radius: 10000px;
   color: white;
   font-size: 10px;
+  font-weight: bold;
+  height: fit-content;
   padding: 3px 8px;
   width: fit-content;
-  height: fit-content;
-  font-weight: bold;
 }
 
 .bg-blue {

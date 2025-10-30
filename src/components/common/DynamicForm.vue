@@ -78,9 +78,9 @@ const getFieldValue = (fieldName: string): string => {
 }
 
 .form-label {
+  color: #374151;
   font-size: 0.875rem;
   font-weight: 500;
-  color: #374151;
 }
 
 .required-mark {

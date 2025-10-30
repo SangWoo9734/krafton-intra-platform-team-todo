@@ -8,7 +8,7 @@
 </template>
 <style scoped>
 .header-container {
-  padding: 16px 0;
   margin-bottom: 16px;
+  padding: 16px 0;
 }
 </style>
