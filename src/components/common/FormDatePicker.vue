@@ -1,10 +1,14 @@
 <script setup lang="ts">
 interface Props {
+  id?: string;
+  name?: string;
   modelValue: string;
   required?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
+  id: undefined,
+  name: 'datepickerInput',
   required: false,
 });
 
@@ -21,10 +25,12 @@ const handleChange = (event: Event) => {
 <template>
   <input
     type="date"
+    :id="props.id"
     :value="modelValue"
     :required="required"
     @change="handleChange"
     class="form-date-picker"
+    :name="props.name"
   />
 </template>
 

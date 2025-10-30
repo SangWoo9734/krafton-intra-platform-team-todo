@@ -2,12 +2,16 @@
 import type { FormFieldOption } from '@/types/form';
 
 interface Props {
+  id?: string;
+  name?: string;
   modelValue: string;
   options: FormFieldOption[];
   required?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
+  id: undefined,
+  name: 'selectInput',
   required: false,
 });
 
@@ -23,10 +27,12 @@ const handleChange = (event: Event) => {
 
 <template>
   <select
+    :id="props.id"
     :value="modelValue"
     :required="required"
     @change="handleChange"
     class="form-select"
+    :name="props.name"
   >
     <option v-for="option in options" :key="option.value" :value="option.value">
       {{ option.label }}

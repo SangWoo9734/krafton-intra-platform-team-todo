@@ -1,5 +1,7 @@
 <script setup lang="ts">
 interface Props {
+  id?: string;
+  name?: string;
   modelValue: string;
   type?: 'text' | 'textarea';
   placeholder?: string;
@@ -7,6 +9,8 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
+  id: undefined,
+  name: 'textInput',
   type: 'text',
   placeholder: '',
   required: false,
@@ -25,21 +29,25 @@ const handleInput = (event: Event) => {
 <template>
   <textarea
     v-if="type === 'textarea'"
+    :id="props.id"
     :value="modelValue"
     :placeholder="placeholder"
     :required="required"
     @input="handleInput"
     class="form-textarea"
+    :name="props.name"
     rows="3"
   />
   <input
     v-else
+    :id="props.id"
     :type="type"
     :value="modelValue"
     :placeholder="placeholder"
     :required="required"
     @input="handleInput"
     class="form-input"
+    :name="props.name"
   />
 </template>
 

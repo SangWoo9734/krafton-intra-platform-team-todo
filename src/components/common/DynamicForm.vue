@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import type { FormField } from '@/types/form';
+import FormDatePicker from '@/components/common/FormDatePicker.vue';
 import FormInput from '@/components/common/FormInput.vue';
 import FormSelect from '@/components/common/FormSelect.vue';
-import FormDatePicker from '@/components/common/FormDatePicker.vue';
-import { computed } from 'vue';
+import type { FormField } from '@/types/form';
 
 interface Props {
   fields: FormField[];
@@ -32,33 +31,39 @@ const getFieldValue = (fieldName: string): string => {
 <template>
   <div class="dynamic-form">
     <div v-for="field in fields" :key="field.name" class="form-field">
-      <label class="form-label">
+      <label class="form-label" :for="field.name">
         {{ field.label }}
         <span v-if="field.required" class="required-mark">*</span>
       </label>
 
       <FormInput
         v-if="field.type === 'text' || field.type === 'textarea'"
+        :id="field.name"
         :model-value="getFieldValue(field.name)"
         :type="field.type"
         :placeholder="field.placeholder"
         :required="field.required"
         @update:model-value="(value) => updateField(field.name, value)"
+        :name="field.name"
       />
 
       <FormSelect
         v-else-if="field.type === 'select'"
+        :id="field.name"
         :model-value="getFieldValue(field.name)"
         :options="field.options || []"
         :required="field.required"
         @update:model-value="(value) => updateField(field.name, value)"
+        :name="field.name"
       />
 
       <FormDatePicker
         v-else-if="field.type === 'date'"
+        :id="field.name"
         :model-value="getFieldValue(field.name)"
         :required="field.required"
         @update:model-value="(value) => updateField(field.name, value)"
+        :name="field.name"
       />
     </div>
   </div>

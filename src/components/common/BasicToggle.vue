@@ -14,6 +14,8 @@ const props = defineProps<Props>();
     type="button"
     :class="['checkbox-box', { 'selected-box': props.isSelected }]"
     @click="props.action"
+    role="checkbox"
+    :aria-checked="props.isSelected"
   >
     <CheckIcon
       :class="['checkbox-icon', { 'selected-icon': props.isSelected }]"

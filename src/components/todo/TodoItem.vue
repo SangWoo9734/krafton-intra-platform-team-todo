@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import type { Todo } from '@/types/todo';
+import BasicChip from '@/components/common/BasicChip.vue';
 import BasicToggle from '@/components/common/BasicToggle.vue';
 import IconButton from '@/components/common/IconButton.vue';
+import { useModal } from '@/composables/useModal';
+import { useTodos } from '@/composables/useTodos';
+import type { Todo } from '@/types/todo';
 import {
-  TrashIcon,
-  PencilSquareIcon,
   ChevronDownIcon,
   ChevronUpIcon,
+  PencilSquareIcon,
+  TrashIcon,
 } from '@heroicons/vue/16/solid';
-import BasicChip from '@/components/common/BasicChip.vue';
-import { useTodos } from '@/composables/useTodos';
-import { useModal } from '@/composables/useModal';
 import { ref } from 'vue';
 
 const props = defineProps<Todo>();
@@ -53,7 +53,13 @@ const toggleExpand = () => {
         />
       </div>
 
-      <IconButton @click="toggleExpand" variant="default" class="expand-button">
+      <IconButton
+        @click="toggleExpand"
+        variant="default"
+        class="expand-button"
+        :aria-label="isExpanded ? 'todo-close' : 'todo-open'"
+        :aria-expanded="isExpanded"
+      >
         <ChevronDownIcon v-if="!isExpanded" />
         <ChevronUpIcon v-else />
       </IconButton>
@@ -78,10 +84,15 @@ const toggleExpand = () => {
             v-if="!props.completed"
             @click="handleEdit"
             variant="blue"
+            aria-label="todo-edit"
           >
             <PencilSquareIcon />
           </IconButton>
-          <IconButton @click="handleDelete" variant="red">
+          <IconButton
+            @click="handleDelete"
+            variant="red"
+            aria-label="todo-remove"
+          >
             <TrashIcon />
           </IconButton>
         </div>

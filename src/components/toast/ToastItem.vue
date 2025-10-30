@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Toast } from '@/types/toast';
-import { CheckCircleIcon, XCircleIcon } from '@heroicons/vue/24/solid';
 import { XMarkIcon } from '@heroicons/vue/24/outline';
+import { CheckCircleIcon, XCircleIcon } from '@heroicons/vue/24/solid';
 
 export interface ToastItemProps {
   toast: Toast;
@@ -24,7 +24,11 @@ const handleClose = () => {
   <div :class="['toast-item', `toast-${props.toast.variant}`]">
     <component :is="variantIcons[props.toast.variant]" class="toast-icon" />
     <p class="toast-message">{{ props.toast.message }}</p>
-    <button @click="handleClose" class="toast-close-button">
+    <button
+      @click="handleClose"
+      class="toast-close-button"
+      aria-label="toast-close"
+    >
       <XMarkIcon class="toast-close-icon" />
     </button>
   </div>
