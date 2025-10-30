@@ -2,6 +2,7 @@
 import BasicChip from '@/components/common/BasicChip.vue';
 import BasicToggle from '@/components/common/BasicToggle.vue';
 import IconButton from '@/components/common/IconButton.vue';
+import { TODO_ITEM_LABELS } from '@/constants/todo';
 import { useModal } from '@/composables/useModal';
 import { useTodos } from '@/composables/useTodos';
 import type { Todo } from '@/types/todo';
@@ -67,16 +68,16 @@ const toggleExpand = () => {
 
     <div v-if="isExpanded" class="item-details">
       <div class="item-content-section">
-        <p class="item-content-label">내용</p>
+        <p class="item-content-label">{{ TODO_ITEM_LABELS.CONTENT }}</p>
         <p class="item-content">{{ props.content }}</p>
       </div>
       <div class="item-footer">
         <div class="item-date-info">
           <p class="global-text-xs">
-            수정: {{ props.updatedAt.toDateString() }}
+            {{ TODO_ITEM_LABELS.UPDATED }}: {{ props.updatedAt.toDateString() }}
           </p>
           <p class="global-text-xs">
-            생성: {{ props.createdAt.toDateString() }}
+            {{ TODO_ITEM_LABELS.CREATED }}: {{ props.createdAt.toDateString() }}
           </p>
         </div>
         <div class="item-actions">

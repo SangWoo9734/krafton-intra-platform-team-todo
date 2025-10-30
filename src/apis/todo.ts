@@ -1,10 +1,11 @@
+import { TODO_ID_PREFIX } from '@/constants/todo';
 import type { Todo, TodoInput, TodoUpdate } from '@/types/todo';
 import { getItem, setItem } from '@/utils/storage';
 
 const TODO_STORAGE_KEY = 'todos';
 
 function generateId(): string {
-  return `td-${Date.now().toString()}`;
+  return `${TODO_ID_PREFIX}${Date.now().toString()}`;
 }
 
 // TODO: 추후 LocalStorage에서 데이터 저장 방식 변경시 삭제
