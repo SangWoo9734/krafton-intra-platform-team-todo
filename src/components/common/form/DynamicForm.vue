@@ -12,14 +12,11 @@ interface Props {
 const props = defineProps<Props>();
 
 const emit = defineEmits<{
-  'update:modelValue': [value: Record<string, unknown>];
+  'update:field': [fieldName: string, value: unknown];
 }>();
 
 const updateField = (fieldName: string, value: unknown) => {
-  emit('update:modelValue', {
-    ...props.modelValue,
-    [fieldName]: value,
-  });
+  emit('update:field', fieldName, value);
 };
 
 const getFieldValue = (fieldName: string): string => {

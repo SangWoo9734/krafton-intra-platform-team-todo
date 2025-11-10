@@ -125,6 +125,11 @@ const handleSubmit = () => {
 const handleClose = () => {
   emit('close');
 };
+
+const handleFieldUpdate = (fieldName: string, value: unknown) => {
+  const key = fieldName as keyof typeof formData;
+  (formData[key] as typeof value) = value;
+};
 </script>
 
 <template>
@@ -140,7 +145,11 @@ const handleClose = () => {
       <div class="form-modal">
         <h3 id="modal-title">{{ modalTitle }}</h3>
 
-        <DynamicForm :fields="formFields" v-model="formData" />
+        <DynamicForm
+          :fields="formFields"
+          :model-value="formData"
+          @update:field="handleFieldUpdate"
+        />
 
         <BasicButton @click="handleSubmit">{{ submitLabel }}</BasicButton>
       </div>
